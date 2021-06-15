@@ -1,19 +1,21 @@
 const Person = require('../models/person.model');
 
 exports.create = (req, res) => {
-    if(!req.body.name) {
+    if (!req.body.name) {
         return res.status(400).send({
+            code: "P400",
             message: "Person's name cannot be empty"
         });
     }
 
-    if(!req.body.surname) {
+    if (!req.body.surname) {
         return res.status(400).send({
+            code: "P400",
             message: "Person's surname cannot be empty"
         });
     }
 
-    const person = new Person ({
+    const person = new Person({
         name: req.body.name,
         surname: req.body.surname,
         age: req.body.age,
@@ -22,66 +24,66 @@ exports.create = (req, res) => {
     });
 
     person.save()
-    .then(personData => {
-        res.status(201).send({
-            code: "P201",
-            message: "Person succesfully inserted",
-            personData
-        });
-    }).catch(err => {
-        res.status(500).send( {
-            message: err.message || "Some error occured while creating person data "
+        .then(personData => {
+            res.status(201).send({
+                code: "P201",
+                message: "Person succesfully inserted",
+                personData
+            });
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occured while creating person data "
+            })
         })
-    })
 };
 
 exports.findAll = (req, res) => {
     Person.find()
-    .then(peopleData => {
-        res.send({
-            code: "P200",
-            message: "List of people successfully fetched",
-            numberOfPeople: peopleData.length,
-            peopleData
+        .then(peopleData => {
+            res.send({
+                code: "P200",
+                message: "List of people successfully fetched",
+                numberOfPeople: peopleData.length,
+                peopleData
+            });
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occured while retriving people data"
+            });
         });
-    }).catch(err => {
-        res.status(500).send( {
-            message: err.message || "Some error occured while retriving people data"
-        });
-    });
 };
 
 exports.findOne = (req, res) => {
     Person.findById(req.params.personId)
-    .then(person => {
-        res.send({
-            code: "P200",
-            message: "Person succesfully fetched",
-            person
-        });
-    }).catch(err => {
-        if(err.kind == 'ObjectId') {
-            return res.status(404).send( {
-                code: "P404",
-                message: "Person with id "+ req.params.personId +" not found"
+        .then(person => {
+            res.send({
+                code: "P200",
+                message: "Person succesfully fetched",
+                person
             });
-        }
+        }).catch(err => {
+            if (err.kind == 'ObjectId') {
+                return res.status(404).send({
+                    code: "P404",
+                    message: "Person with id " + req.params.personId + " not found"
+                });
+            }
 
-        return res.status(500).send ( {
-            message: "Error retriving person with id "+ req.params.personId
+            return res.status(500).send({
+                message: "Error retriving person with id " + req.params.personId
+            });
         });
-    });
 };
 
 exports.update = (req, res) => {
-    if(Object.keys(req.body).length === 0) {
+    if (Object.keys(req.body).length === 0) {
         return res.status(400).send({
             code: "P400",
             message: "Request body cannot be empty"
         });
     }
 
-    if(!req.body.location) {
+    if (!req.body.location) {
         return res.status(400).send({
             code: "P400",
             message: "Person's location must be provided to be updated !"
@@ -92,56 +94,56 @@ exports.update = (req, res) => {
 
     Person.findByIdAndUpdate(req.params.personId, {
         location: req.body.location
-    }, {new: true})
-    .then(person => {
-        if(!person) {
-            return res.status(404).send({
-                message: "Person with id=" + personId + " not found"
-            });
-        } else {
-            res.send({
-                code: "P200",
-                message: "Person's location succesfully updated !",
-                person
-            })
-        }
-       
-    }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Person with id=" + personId + " not found"
-            });
-        }
+    }, { new: true })
+        .then(person => {
+            if (!person) {
+                return res.status(404).send({
+                    message: "Person with id=" + personId + " not found"
+                });
+            } else {
+                res.send({
+                    code: "P200",
+                    message: "Person's location succesfully updated !",
+                    person
+                })
+            }
 
-        return res.status(500).send({
-            message: "Error updating person with id" + personId
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Person with id=" + personId + " not found"
+                });
+            }
+
+            return res.status(500).send({
+                message: "Error updating person with id" + personId
+            });
         });
-    });
 };
 
 exports.delete = (req, res) => {
     const personId = req.params.personId;
 
     Person.findByIdAndRemove(req.params.personId)
-    .then(person => {
-        if(!person) {
-            return res.status(404).send({
-                message: "Cannot delete Person because Id " + personId + "is not existant"
-            });
-        }
-        res.send({ 
-            code: "P200",
-            message: "Person with id=" + personId + " has been succesfully deleted" 
-        })
-    }).catch(err => {
-        if(err.kind === 'ObjectId' || err.name === 'Not Found') {
-            return res.status(404).send({
-                message: "Person with id=" + personId + " not found"
-            });
-        }
+        .then(person => {
+            if (!person) {
+                return res.status(404).send({
+                    message: "Cannot delete Person because Id " + personId + "is not existant"
+                });
+            }
+            res.send({
+                code: "P200",
+                message: "Person with id=" + personId + " has been succesfully deleted"
+            })
+        }).catch(err => {
+            if (err.kind === 'ObjectId' || err.name === 'Not Found') {
+                return res.status(404).send({
+                    message: "Person with id=" + personId + " not found"
+                });
+            }
 
-        return res.status(500).send({
-            message: "Could not detele Person with id=" + personId + ". Some error occured."
+            return res.status(500).send({
+                message: "Could not detele Person with id=" + personId + ". Some error occured."
+            })
         })
-    })
 };
