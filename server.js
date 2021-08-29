@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const dbConfig = require('./config/database.config');
 const mongoose = require('mongoose');
 var cors = require('cors');
-
+let port = process.env.PORT || 3000
 
 const app = express();
 
