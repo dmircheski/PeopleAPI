@@ -1,5 +1,5 @@
 module.exports = (app) => {
-    const people = require('/Users/deniv/Desktop/API/app/controllers/person.controller')
+    const people = require('../controllers/person.controller')
     // require('.controllers/person.controller')
 
     const router = require("express").Router();
