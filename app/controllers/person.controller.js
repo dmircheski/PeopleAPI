@@ -1,6 +1,13 @@
 const Person = require('../models/person.model');
 
 exports.create = (req, res) => {
+    if(Object.keys(req.body).length === 0) {
+        return res.status(400).send({
+            code: "P400",
+            message: "Request body cannot be empty"
+        })
+    }
+
     if (!req.body.name) {
         return res.status(400).send({
             code: "P400",
@@ -12,6 +19,13 @@ exports.create = (req, res) => {
         return res.status(400).send({
             code: "P400",
             message: "Person's surname cannot be empty"
+        });
+    }
+
+    if(req.body.isEmployed == null) {
+        return res.status(400).send({
+            code: "P400",
+            message: "Person must provide if he is employed or not"
         });
     }
 
