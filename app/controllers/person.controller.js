@@ -112,6 +112,7 @@ exports.update = (req, res) => {
         .then(person => {
             if (!person) {
                 return res.status(404).send({
+                    code: "P404",
                     message: "Person with id=" + personId + " not found"
                 });
             } else {
