@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
- mongoose.plugin(require('meanie-mongoose-to-json'));
+const toJson = require('@meanie/mongoose-to-json');
+
+mongoose.plugin(toJson);
 
 const PersonSchema = mongoose.Schema({
     name: String,
