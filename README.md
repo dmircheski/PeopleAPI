@@ -42,4 +42,10 @@ Delete Person by ID - DELETE - http://localhost:3000/api/person/{id}
 
 
 ![People API](https://user-images.githubusercontent.com/47220300/195833657-6129648b-4edb-4a39-a6c8-4eb738b26cde.png)
+<br />
+
+Branches:	<br />
+main			-> main branch is currently deployed on Heroku 	<br />
+jwt_authorization	-> this branch works with JWT Authorization it uses additional libraries for JWT and has an additional middleware.js that holds the functions for user authentication and authorization. If we want to call the above mentioned endpoints we need to fetch the token from the Authorization Server -> https://github.com/dmircheski/authorizationServer
+
 
