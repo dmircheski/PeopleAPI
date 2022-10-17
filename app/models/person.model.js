@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const toJson = require('meanie/mongoose-to-json');
+const toJson = require('@meanie/mongoose-to-json');
 
 mongoose.plugin(toJson);
 
