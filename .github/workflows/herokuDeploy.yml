@@ -21,5 +21,4 @@ jobs:
   test:
     name: Execute NodeJS Back end tests
     needs: deploy
-    steps: 
-      - uses: dmircheski/nodeApiTesting/.github/workflows/runTests.yml
+    uses: dmircheski/nodeApiTesting/.github/workflows/runTests.yml
