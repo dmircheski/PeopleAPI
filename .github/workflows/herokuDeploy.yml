@@ -22,12 +22,11 @@ jobs:
   test:
     needs: deploy
     name: Automation tests
-
-    # steps:
-    #   - uses: convictional/trigger-workflow-and-wait@v1.6.1
-    #     with:
-    #       owner: dmircheski
-    #       repo: nodeApiTesting
-    #       github_token: ${{secrets.GITH_PERSONAL_ACCESS_TOKEN}}
-    #       workflow_file_name: runTests.yml
-    #       ref: master
+    steps:
+      - uses: convictional/trigger-workflow-and-wait@v1.6.1
+        with:
+          owner: dmircheski
+          repo: nodeApiTesting
+          github_token: ${{secrets.GITH_PERSONAL_ACCESS_TOKEN}}
+          workflow_file_name: runTests.yml
+          ref: master
