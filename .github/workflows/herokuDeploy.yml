@@ -1,13 +1,15 @@
-name: Test & Deploy to Heroku
+name: Deploy & test
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [synchronize]
 
 jobs:
-  build:
+  deploy:
+    name: Heroku deployment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,3 +18,16 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "people-api1" #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
+  
+  test:
+    needs: deploy
+    name: Automation tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: convictional/trigger-workflow-and-wait@v1.6.1
+        with:
+          owner: dmircheski
+          repo: nodeApiTesting
+          github_token: ${{secrets.GITH_PERSONAL_ACCESS_TOKEN}}
+          workflow_file_name: runTests.yml
+          ref: master
