@@ -143,6 +143,7 @@ exports.delete = (req, res) => {
         .then(person => {
             if (!person) {
                 return res.status(404).send({
+                    code: "P404",
                     message: "Cannot delete Person because Id " + personId + "is not existant"
                 });
             }
