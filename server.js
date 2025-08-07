@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dbConfig = require('./config/database.config');
 const mongoose = require('mongoose');
+const env = require('dotenv').config()
 var cors = require('cors');
 let port = process.env.PORT || 3000
 
@@ -16,8 +17,7 @@ app.use(cors());
 mongoose.Promise = global.Promise;
 
 mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    dbName: 'Sample'
 }).then(() => {
     console.log("Successfully connected to the database");
 }).catch(err => {
