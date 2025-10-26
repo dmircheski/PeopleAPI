@@ -139,7 +139,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const personId = req.params.personId;
 
-    Person.findByIdAndRemove(req.params.personId)
+    Person.findByIdAndDelete(req.params.personId)
         .then(person => {
             if (!person) {
                 return res.status(404).send({
